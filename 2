@@ -1,0 +1,64 @@
+//1 задание 
+const mylterable = {
+  from: 1,
+  to: 4,
+
+  [Symbol.iterator] () {
+     this.current = this.from;
+    return this;
+  },
+
+  next() {
+    if (this.current == null || this.to == null || typeof(this.current) !== 'number' || typeof(this.to)!=='number') {
+      return {done: true, value: console.log("Ошибка!")}
+    } else if(this.current <= this.to) {
+      return {done: false, value: this.current++}
+    } else {
+      return {done: true}
+    }
+  }
+
+}
+
+for(let item of mylterable) {
+  console.log(item)
+}
+
+//2 задание 
+function getPerson(name,age) {
+    return [
+    {
+      name,
+      age
+    },
+
+    Object.assign({name,age}),
+
+    {...{name,age}},
+
+    Object.defineProperties ({name,age}, {
+    name: {value: name, writable: true},
+    age: {value: age, writable: true}
+   }),
+
+   Object.create({}, {
+      name: {
+      value: name,
+    },
+      age: {
+      value: age
+    }
+  }),
+
+    Object.setPrototypeOf({name,age}, null),
+
+      ((name, age) => new function() {
+      this.name = name;
+      this.age = age;})(name, age),
+
+  ]
+}
+
+console.log(getPerson("User", 25))
+
+
